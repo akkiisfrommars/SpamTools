@@ -48,14 +48,6 @@ spamtools/
 Each file is fully self contained. Open it directly in a browser, or serve
 the folder with any static file server.
 
-## GitHub Pages
-
-If Pages is enabled for this repo, the hub page and every tool are live at:
-
-```
-https://<username>.github.io/spamtools/
-https://<username>.github.io/spamtools/spamexcuse.html
-```
 
 and so on for each tool file.
 
