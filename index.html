@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpamTools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAF8F5;
+    --surface: #FFFFFF;
+    --border: #E5E0D8;
+    --text: #1A1A1A;
+    --muted: #8A8378;
+    --accent: #8C9F84;
+    --tag-a: #C17F59;
+    --tag-b: #A3B18A;
+    --tag-c: #8B5A8C;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 48px 24px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .page {
+    width: 100%;
+    max-width: 640px;
+  }
+
+  header {
+    margin-bottom: 36px;
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  header p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 480px;
+  }
+
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.15s ease;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+  }
+
+  .card-text h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .card-text p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .card-arrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  footer {
+    margin-top: 36px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header>
+    <h1>SpamTools</h1>
+    <p>
+      A small pile of AI tools, each one a single page powered by Gemini.
+      Pick one, paste your API key once, and it stays saved in that browser.
+    </p>
+  </header>
+
+  <div class="grid">
+    <a class="card" href="spamexcuse.html">
+      <div class="card-text">
+        <h2>SpamExcuse</h2>
+        <p>Describe a situation, get three excuses, from mild to absurd.</p>
+      </div>
+      <span class="card-arrow">Open</span>
+    </a>
+
+    <a class="card" href="spamroast.html">
+      <div class="card-text">
+        <h2>SpamRoast</h2>
+        <p>Paste your code, get roasted, then get one real tip.</p>
+      </div>
+      <span class="card-arrow">Open</span>
+    </a>
+
+    <a class="card" href="spamhoroscope.html">
+      <div class="card-text">
+        <h2>SpamHoroscope</h2>
+        <p>Enter your stack, get today's reading, lucky pick, and what to avoid.</p>
+      </div>
+      <span class="card-arrow">Open</span>
+    </a>
+
+    <a class="card" href="spamduck.html">
+      <div class="card-text">
+        <h2>SpamDuck</h2>
+        <p>Explain your bug, get clarifying questions back, never the answer.</p>
+      </div>
+      <span class="card-arrow">Open</span>
+    </a>
+
+    <a class="card" href="spamhaiku.html">
+      <div class="card-text">
+        <h2>SpamHaiku</h2>
+        <p>Describe a code change, get a haiku for the commit log.</p>
+      </div>
+      <span class="card-arrow">Open</span>
+    </a>
+
+    <a class="card" href="spamcorporate.html">
+      <div class="card-text">
+        <h2>SpamCorporate</h2>
+        <p>Say what you mean, get the corporate version and a buzzword count.</p>
+      </div>
+      <span class="card-arrow">Open</span>
+    </a>
+
+    <a class="card" href="spamregex.html">
+      <div class="card-text">
+        <h2>SpamRegex</h2>
+        <p>Describe a pattern in plain English, get the regex for it.</p>
+      </div>
+      <span class="card-arrow">Open</span>
+    </a>
+
+    <a class="card" href="spamcommit.html">
+      <div class="card-text">
+        <h2>SpamCommit</h2>
+        <p>Describe your changes, get a proper commit subject and body.</p>
+      </div>
+      <span class="card-arrow">Open</span>
+    </a>
+
+    <a class="card" href="spamrename.html">
+      <div class="card-text">
+        <h2>SpamRename</h2>
+        <p>Describe what it does, get a few naming options that make sense.</p>
+      </div>
+      <span class="card-arrow">Open</span>
+    </a>
+
+    <a class="card" href="spamsummary.html">
+      <div class="card-text">
+        <h2>SpamSummary</h2>
+        <p>Paste something long, get a tldr and the key points.</p>
+      </div>
+      <span class="card-arrow">Open</span>
+    </a>
+
+    <a class="card" href="spamprompt.html">
+      <div class="card-text">
+        <h2>SpamPrompt</h2>
+        <p>Paste a rough AI prompt, get a sharper version of it.</p>
+      </div>
+      <span class="card-arrow">Open</span>
+    </a>
+  </div>
+
+  <footer>
+    Each tool asks for a Gemini API key on first open. The key is stored only
+    in your browser's local storage and is shared across all tools on this
+    page. Get a free key from
+    <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a>.
+  </footer>
+</div>
+
+</body>
+</html>

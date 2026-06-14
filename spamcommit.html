@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpamCommit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAF8F5;
+    --surface: #FFFFFF;
+    --border: #E5E0D8;
+    --text: #1A1A1A;
+    --muted: #8A8378;
+    --accent: #8C9F84;
+    --tag-a: #C17F59;
+    --tag-b: #A3B18A;
+    --tag-c: #8B5A8C;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .app {
+    width: 100%;
+    max-width: 480px;
+  }
+
+  /* --- Setup screen --- */
+  .setup-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+  }
+
+  .setup-card h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .setup-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  .setup-card a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+  }
+
+  /* --- Shared form elements --- */
+  input[type="password"],
+  input[type="text"],
+  textarea {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: var(--accent);
+  }
+
+  textarea {
+    resize: none;
+    min-height: 90px;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+  }
+
+  textarea.mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    min-height: 140px;
+  }
+
+  button {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: opacity 0.15s ease, transform 0.05s ease;
+  }
+
+  button:active {
+    transform: scale(0.99);
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #FFFFFF;
+    width: 100%;
+    margin-top: 14px;
+  }
+
+  .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .btn-primary:not(:disabled):hover {
+    opacity: 0.9;
+  }
+
+  /* --- Main app screen --- */
+  .main-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+  }
+
+  .main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px;
+  }
+
+  .main-header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .gear-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .gear-btn:hover {
+    border-color: var(--accent);
+  }
+
+  .gear-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--text);
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  /* --- Results --- */
+  .results {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .result-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    background: var(--bg);
+  }
+
+  .result-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+
+  .tag-a {
+    color: var(--tag-a);
+    background: rgba(193, 127, 89, 0.14);
+  }
+
+  .tag-b {
+    color: var(--tag-b);
+    background: rgba(163, 177, 138, 0.16);
+  }
+
+  .tag-c {
+    color: var(--tag-c);
+    background: rgba(139, 90, 140, 0.12);
+  }
+
+  .result-text {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .code-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .list-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    background: var(--bg);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .list-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  textarea.tall {
+    min-height: 160px;
+  }
+
+
+  /* --- Status / error --- */
+  .status {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 14px;
+    text-align: center;
+  }
+
+  .status.error {
+    color: var(--tag-a);
+  }
+
+  /* --- Settings overlay --- */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 26, 26, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 10;
+  }
+
+  .overlay.hidden {
+    display: none;
+  }
+
+  .settings-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 28px;
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .settings-card h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .settings-card p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+
+  .settings-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .btn-secondary {
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    flex: 1;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--muted);
+  }
+
+  .settings-actions .btn-primary {
+    margin-top: 0;
+    flex: 1;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Setup screen: shown when no API key is stored -->
+  <div id="setup-screen" class="setup-card hidden">
+    <h1>Connect your Gemini API key</h1>
+    <p>
+      This tool runs entirely in your browser and talks directly to Google's
+      Gemini API. Your key is stored only in this browser's local storage,
+      it is never sent anywhere else. Get a free key from
+      <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a>.
+    </p>
+    <label class="field-label" for="setup-key-input">API key</label>
+    <input type="password" id="setup-key-input" placeholder="Paste your Gemini API key">
+    <button class="btn-primary" id="setup-save-btn" disabled>Save and continue</button>
+  </div>
+
+  <!-- Main screen -->
+  <div id="main-screen" class="main-card hidden">
+    <div class="main-header">
+      <h1>SpamCommit</h1>
+      <button class="gear-btn" id="open-settings-btn" title="Settings" aria-label="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </div>
+    <p class="subtitle">Describe what you changed. Get a commit message worth reading.</p>
+
+    <label class="field-label" for="main-input">What did you change</label>
+    <textarea id="main-input" class="" placeholder="e.g. added email validation to the signup form and fixed a typo in the readme"></textarea>
+
+    <button class="btn-primary" id="generate-btn">Write commit message</button>
+
+    <div id="status" class="status hidden"></div>
+    <div id="results" class="results"></div>
+  </div>
+
+</div>
+
+<!-- Settings overlay -->
+<div id="settings-overlay" class="overlay hidden">
+  <div class="settings-card">
+    <h2>Settings</h2>
+    <p>Update the Gemini API key stored in this browser.</p>
+    <label class="field-label" for="settings-key-input">API key</label>
+    <input type="password" id="settings-key-input" placeholder="Paste your Gemini API key">
+    <div class="settings-actions">
+      <button class="btn-secondary" id="settings-cancel-btn">Cancel</button>
+      <button class="btn-primary" id="settings-save-btn">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'gemini_api_key';
+  const MODEL = 'gemini-2.5-flash-lite';
+
+  const setupScreen = document.getElementById('setup-screen');
+  const mainScreen = document.getElementById('main-screen');
+  const setupKeyInput = document.getElementById('setup-key-input');
+  const setupSaveBtn = document.getElementById('setup-save-btn');
+
+  const settingsOverlay = document.getElementById('settings-overlay');
+  const openSettingsBtn = document.getElementById('open-settings-btn');
+  const settingsKeyInput = document.getElementById('settings-key-input');
+  const settingsSaveBtn = document.getElementById('settings-save-btn');
+  const settingsCancelBtn = document.getElementById('settings-cancel-btn');
+
+  const mainInput = document.getElementById('main-input');
+  const generateBtn = document.getElementById('generate-btn');
+  const statusEl = document.getElementById('status');
+  const resultsEl = document.getElementById('results');
+
+  function init() {
+    const key = localStorage.getItem(STORAGE_KEY);
+    if (key) {
+      showMain();
+    } else {
+      showSetup();
+    }
+  }
+
+  function showSetup() {
+    setupScreen.classList.remove('hidden');
+    mainScreen.classList.add('hidden');
+  }
+
+  function showMain() {
+    setupScreen.classList.add('hidden');
+    mainScreen.classList.remove('hidden');
+  }
+
+  setupKeyInput.addEventListener('input', () => {
+    setupSaveBtn.disabled = setupKeyInput.value.trim().length === 0;
+  });
+
+  setupSaveBtn.addEventListener('click', () => {
+    const key = setupKeyInput.value.trim();
+    if (!key) return;
+    localStorage.setItem(STORAGE_KEY, key);
+    showMain();
+  });
+
+  openSettingsBtn.addEventListener('click', () => {
+    settingsKeyInput.value = localStorage.getItem(STORAGE_KEY) || '';
+    settingsOverlay.classList.remove('hidden');
+  });
+
+  settingsCancelBtn.addEventListener('click', () => {
+    settingsOverlay.classList.add('hidden');
+  });
+
+  settingsSaveBtn.addEventListener('click', () => {
+    const key = settingsKeyInput.value.trim();
+    if (key) {
+      localStorage.setItem(STORAGE_KEY, key);
+    }
+    settingsOverlay.classList.add('hidden');
+  });
+
+  generateBtn.addEventListener('click', generateResult);
+
+  function setStatus(message, isError) {
+    statusEl.textContent = message;
+    statusEl.classList.toggle('error', !!isError);
+    statusEl.classList.toggle('hidden', !message);
+  }
+
+  function setLoading(isLoading) {
+    generateBtn.disabled = isLoading;
+    generateBtn.textContent = isLoading ? 'Writing...' : 'Write commit message';
+  }
+
+  async function generateResult() {
+    const inputVal = mainInput.value.trim();
+    if (!inputVal) {
+      setStatus('Describe your changes first.', true);
+      return;
+    }
+
+    const apiKey = localStorage.getItem(STORAGE_KEY);
+    if (!apiKey) {
+      showSetup();
+      return;
+    }
+
+    setStatus('');
+    resultsEl.innerHTML = '';
+    setLoading(true);
+
+    const prompt = [
+      'You write clear git commit messages following the conventional commits style,',
+      'using a type prefix such as feat, fix, refactor, docs, chore, or test.',
+      '',
+      'Here is a description of the change:',
+      inputVal,
+      '',
+      'Write a commit subject line under 72 characters, in the form type: short description.',
+      'Then write a short body explaining the change in more detail, one to three sentences.',
+      'If the change is simple enough that a body adds nothing, the body can be an empty string.',
+      '',
+      'Rules:',
+      '- Do not use emojis.',
+      '- Do not use em dashes or en dashes. Use commas or periods instead.',
+      '- Return only valid JSON, no extra text, in exactly this shape:',
+      '{"subject": "...", "body": "..."}'
+    ].join('\n');
+
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: {
+              responseMimeType: 'application/json',
+              temperature: 0.9
+            }
+          })
+        }
+      );
+
+      if (!response.ok) {
+        const errBody = await response.text();
+        throw new Error('Request failed (' + response.status + '): ' + errBody.slice(0, 200));
+      }
+
+      const data = await response.json();
+      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (!text) {
+        throw new Error('No response text returned.');
+      }
+
+      let parsed;
+      try {
+        parsed = JSON.parse(text);
+      } catch (e) {
+        throw new Error('Could not parse response as JSON.');
+      }
+
+      renderResults(parsed);
+    } catch (err) {
+      setStatus(err.message || 'Something went wrong.', true);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function renderResults(data) {
+    resultsEl.innerHTML = '';
+
+    if (!data.subject) {
+      setStatus('Got a response but could not find a commit message in it.', true);
+      return;
+    }
+
+    const subjectCard = document.createElement('div');
+    subjectCard.className = 'result-card';
+
+    const subjectTag = document.createElement('span');
+    subjectTag.className = 'result-tag tag-b';
+    subjectTag.textContent = 'Subject line';
+
+    const subjectBody = document.createElement('div');
+    subjectBody.className = 'code-text';
+    subjectBody.textContent = data.subject;
+
+    subjectCard.appendChild(subjectTag);
+    subjectCard.appendChild(subjectBody);
+    resultsEl.appendChild(subjectCard);
+
+    if (data.body) {
+      const bodyCard = document.createElement('div');
+      bodyCard.className = 'result-card';
+
+      const bodyTag = document.createElement('span');
+      bodyTag.className = 'result-tag tag-c';
+      bodyTag.textContent = 'Body';
+
+      const bodyText = document.createElement('div');
+      bodyText.className = 'result-text';
+      bodyText.textContent = data.body;
+
+      bodyCard.appendChild(bodyTag);
+      bodyCard.appendChild(bodyText);
+      resultsEl.appendChild(bodyCard);
+    }
+  }
+
+  init();
+</script>
+
+</body>
+</html>
