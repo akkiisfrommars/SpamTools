@@ -3,6 +3,8 @@
 A small collection of single page AI tools, each powered by the Gemini API
 (gemini-2.5-flash-lite). No backend, no build step, just open the page.
 
+Live: https://spamtools.netlify.app
+
 ## How it works
 
 Each tool asks for a Gemini API key the first time you open it. The key is
